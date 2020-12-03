@@ -126,7 +126,6 @@ public class RWayTrie implements Trie {
             q.enqueue(pre);
         }
 
-
         for (char c = FIRST_LETTER; c < R + FIRST_LETTER; c++) {
             collect(node.next[c - FIRST_LETTER], pre + c, q);
         }

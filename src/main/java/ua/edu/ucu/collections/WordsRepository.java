@@ -39,7 +39,7 @@ public class WordsRepository implements Iterable<String> {
 
     public String[] getWords() {
         String[] newWords = new String[words.length];
-        System.arraycopy(newWords, 0, words, 0, words.length);
+        System.arraycopy(words, 0, newWords, 0, words.length);
         return newWords;
     }
 }
