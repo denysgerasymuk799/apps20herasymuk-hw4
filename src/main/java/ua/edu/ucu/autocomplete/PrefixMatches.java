@@ -11,14 +11,12 @@ import java.util.List;
  * @author andrii
  */
 public class PrefixMatches {
-
-    private final Trie trie;
-
     // To prove that the length of longest literature word
     // https://en.wikipedia.org/wiki/Longest_word_in_English
-    final static int LONGEST_LITERATURE_WORD_LEN = 183;
+    static final int LONGEST_LITERATURE_WORD_LEN = 183;
+    static final int MIN_LEN_WORD = 3;
 
-    final static int MIN_LEN_WORD = 3;
+    private final Trie trie;
 
     public PrefixMatches(Trie trie) {
         this.trie = trie;
