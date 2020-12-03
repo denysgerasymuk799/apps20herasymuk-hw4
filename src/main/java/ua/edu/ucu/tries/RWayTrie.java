@@ -109,8 +109,9 @@ public class RWayTrie implements Trie {
         }
 
         for (char c = FIRST_LETTER; c < R + FIRST_LETTER; c++) {
-            if (node.next[c - FIRST_LETTER] != null)
+            if (node.next[c - FIRST_LETTER] != null) {
                 return node;
+            }
         }
 
         return null;

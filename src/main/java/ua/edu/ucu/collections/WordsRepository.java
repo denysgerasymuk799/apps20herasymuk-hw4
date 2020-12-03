@@ -6,7 +6,7 @@ import java.util.Iterator;
 
 @Getter
 public class WordsRepository implements Iterable<String> {
-    static private int actualSize;
+    private static int actualSize;
     private final String[] words;
 
     public WordsRepository(int len) {

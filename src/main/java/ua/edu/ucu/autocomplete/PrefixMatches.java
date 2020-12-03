@@ -16,9 +16,9 @@ public class PrefixMatches {
 
     // To prove that the length of longest literature word
     // https://en.wikipedia.org/wiki/Longest_word_in_English
-    static final int LONGEST_LITERATURE_WORD_LEN = 183;
+    final static int LONGEST_LITERATURE_WORD_LEN = 183;
 
-    static final int MIN_LEN_WORD = 3;
+    final static int MIN_LEN_WORD = 3;
 
     public PrefixMatches(Trie trie) {
         this.trie = trie;
