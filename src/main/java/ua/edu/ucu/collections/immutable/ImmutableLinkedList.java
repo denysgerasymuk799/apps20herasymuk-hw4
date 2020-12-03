@@ -23,13 +23,13 @@ public class ImmutableLinkedList implements ImmutableList {
         private Node next;
         private Node prev;
 
-        public Node(Node node) {
+        Node(Node node) {
             value = node.value;
             next = node.next;
             prev = node.prev;
         }
 
-        public Node(Object value) {
+        Node(Object value) {
             this.value = value;
         }
     }

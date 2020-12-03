@@ -1,10 +1,13 @@
 package ua.edu.ucu.collections;
 
+import lombok.Getter;
+
 import java.util.Iterator;
 
+@Getter
 public class WordsRepository implements Iterable<String> {
-    public String[] words;
-    public static int actualSize;
+    static private int actualSize;
+    private final String[] words;
 
     public WordsRepository(int len) {
         words = new String[len];
@@ -18,7 +21,7 @@ public class WordsRepository implements Iterable<String> {
     @Override
     public Iterator<String> iterator() {
         return new Iterator<String>() {
-            int index;
+            private int index;
 
             @Override
             public boolean hasNext() {
@@ -28,7 +31,7 @@ public class WordsRepository implements Iterable<String> {
             @Override
             public String next() {
 
-                if(this.hasNext()){
+                if (this.hasNext()) {
                     return words[index++];
                 }
                 return null;

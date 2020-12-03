@@ -14,8 +14,12 @@ public class PrefixMatches {
 
     private final Trie trie;
 
-    // TODO: edit code for checking with better constructions
-    // TODO: make a copy of trie
+    // To prove that the length of longest literature word
+    // https://en.wikipedia.org/wiki/Longest_word_in_English
+    static final int LONGEST_LITERATURE_WORD_LEN = 183;
+
+    static final int MIN_LEN_WORD = 3;
+
     public PrefixMatches(Trie trie) {
         this.trie = trie;
     }
@@ -73,10 +77,6 @@ public class PrefixMatches {
             throw new IllegalArgumentException("pref.length < 2");
         }
 
-        // To prove
-        // https://en.wikipedia.org/wiki/Longest_word_in_English
-        int LONGEST_LITERATURE_WORD_LEN = 183;
-
         return wordsWithPrefix(pref, LONGEST_LITERATURE_WORD_LEN);
     }
 
@@ -95,7 +95,7 @@ public class PrefixMatches {
 
         int minLenWord = pref.length();
         if (pref.length() == 2) {
-            minLenWord = 3;
+            minLenWord = MIN_LEN_WORD;
         }
 
         // here you can see how my Iterable object

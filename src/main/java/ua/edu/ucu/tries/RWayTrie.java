@@ -3,9 +3,6 @@ package ua.edu.ucu.tries;
 import ua.edu.ucu.collections.Queue;
 import ua.edu.ucu.collections.WordsRepository;
 
-import java.util.LinkedList;
-import java.util.List;
-
 public class RWayTrie implements Trie {
     private static final int R = 26; // alphabet size
     private static final char FIRST_LETTER = 'a'; // ascii code for 'a'
@@ -20,101 +17,118 @@ public class RWayTrie implements Trie {
 
     private void checkAllowedCharacter(char c) {
         if (c < FIRST_LETTER || c > LAST_LETTER) {
-            throw new IllegalArgumentException("input word contains symbols," +
-                    "which are not letters");
+            throw new IllegalArgumentException("input word contains symbols,"
+                    + "which are not letters");
         }
     }
 
     // next private functions were taken from
     // «Robert Sedgewick, Kevin Wayne Algorithms, 4th Edition Addison» book
     public Tuple get(String key) {
-        Node x = get(root, key, 0);
-        if (x == null)
-            return null;
-
-        return new Tuple(key, (int) x.val);
-    }
-
-    private Node get(Node x, String key, int d) {
-        // Return node associated with key in the subtrie rooted at x.
-        if (x == null) {
+        Node node = get(root, key, 0);
+        if (node == null) {
             return null;
         }
 
-        if (d == key.length()) return x;
-        char c = key.charAt(d); // Use dth key char to identify subtrie.
-        checkAllowedCharacter(c);
-
-        return get(x.next[c - FIRST_LETTER], key, d+1);
+        return new Tuple(key, (int) node.val);
     }
 
-    private int size(Node x) {
-        if (x == null) return 0;
-        int cnt = 0;
-        if (x.val != null) cnt++;
+    private Node get(Node node, String key, int idx) {
+        // Return node associated with key in the subtrie rooted at x.
+        if (node == null) {
+            return null;
+        }
 
-        // TODO: if size true ??
-        for (char c = 0; c < R; c++)
-            cnt += size(x.next[c]);
-        
+        if (idx == key.length()) {
+            return node;
+        }
+
+        char c = key.charAt(idx); // Use dth key char to identify subtrie.
+        checkAllowedCharacter(c);
+
+        return get(node.next[c - FIRST_LETTER], key, idx + 1);
+    }
+
+    private int size(Node node) {
+        if (node == null) {
+            return 0;
+        }
+
+        int cnt = 0;
+        if (node.val != null) {
+            cnt++;
+        }
+
+        for (char ch = 0; ch < R; ch++) {
+            cnt += size(node.next[ch]);
+        }
+
         return cnt;
     }
 
-    private Node add(Node x, String key, int val, int d) {
+    private Node add(Node node, String key, int val, int idx) {
         // Change value associated with key if in subtrie rooted at x.
-        if (x == null)
-            x = new Node();
+        Node newNode = node;
+        if (node == null) {
+            newNode = new Node();
+        }
 
-        if (d == key.length()) {
-            x.val = val;
-            return x;
+        if (idx == key.length()) {
+            newNode.val = val;
+            return newNode;
         }
 
         // Use dth key char to identify subtrie.
-        char c = key.charAt(d);
+        char c = key.charAt(idx);
         checkAllowedCharacter(c);
 
         // c - FIRST_LETTER is a difference of ASCII codes
         // so it will not be less 0 if c is a letter of lowercase
-        x.next[c - FIRST_LETTER] = add(x.next[c - FIRST_LETTER],
-                key, val, d + 1);
-        return x;
+        newNode.next[c - FIRST_LETTER] = add(newNode.next[c - FIRST_LETTER],
+                key, val, idx + 1);
+        return newNode;
     }
 
-    private Node delete(Node x, String key, int idx) {
-        if (x == null)
+    private Node delete(Node node, String key, int idx) {
+        if (node == null) {
             return null;
+        }
 
-        if (idx == key.length())
-            x.val = null;
-        else {
+        if (idx == key.length()) {
+            node.val = null;
+        } else {
             char c = key.charAt(idx);
             checkAllowedCharacter(c);
-            
-            x.next[c - FIRST_LETTER] = delete(x.next[c - FIRST_LETTER],
+
+            node.next[c - FIRST_LETTER] = delete(node.next[c - FIRST_LETTER],
                     key, idx + 1);
         }
 
-        if (x.val != null)
-            return x;
+        if (node.val != null) {
+            return node;
+        }
 
-        for (char c = FIRST_LETTER; c < R + FIRST_LETTER; c++)
-            if (x.next[c - FIRST_LETTER] != null)
-                return x;
+        for (char c = FIRST_LETTER; c < R + FIRST_LETTER; c++) {
+            if (node.next[c - FIRST_LETTER] != null)
+                return node;
+        }
 
         return null;
     }
 
-    private void collect(Node x, String pre, Queue q) {
-        if (x == null)
+    private void collect(Node node, String pre, Queue q) {
+        if (node == null) {
             return;
+        }
 
-        if (x.val != null)
+        if (node.val != null) {
             q.enqueue(pre);
+        }
 
-        // TODO: use BST
-        for (char c = FIRST_LETTER; c < R + FIRST_LETTER; c++)
-            collect(x.next[c - FIRST_LETTER], pre + c, q);
+
+        for (char c = FIRST_LETTER; c < R + FIRST_LETTER; c++) {
+            collect(node.next[c - FIRST_LETTER], pre + c, q);
+        }
     }
 
     @Override
@@ -133,7 +147,7 @@ public class RWayTrie implements Trie {
             root = delete(root, word, 0);
             return true;
         }
-        // TODO: why true when no element in Trie
+
         return false;
     }
 
@@ -147,10 +161,10 @@ public class RWayTrie implements Trie {
         Queue q = new Queue();
         collect(get(root, s, 0), s, q);
 
-        int len_q = q.size();
-        WordsRepository wordsList = new WordsRepository(len_q);
+        int lenQ = q.size();
+        WordsRepository wordsList = new WordsRepository(lenQ);
 
-        for (int i = 0; i < len_q; i++) {
+        for (int i = 0; i < lenQ; i++) {
             wordsList.add((String) q.dequeue());
         }
 
