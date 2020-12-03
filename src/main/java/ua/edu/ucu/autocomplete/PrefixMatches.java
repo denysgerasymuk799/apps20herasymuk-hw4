@@ -5,7 +5,6 @@ import ua.edu.ucu.tries.Tuple;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 
 /**
  *
@@ -52,6 +51,9 @@ public class PrefixMatches {
             throw new IllegalArgumentException("Null input for word");
         }
 
+        // String.toLowerCase() can not be used here
+        // as my method was not static from the beginning template
+        // which I got
         return trie.contains(word.toLowerCase());
     }
 
@@ -64,6 +66,9 @@ public class PrefixMatches {
             return false;
         }
 
+        // String.toLowerCase() can not be used here
+        // as my method was not static from the beginning template
+        // which I got
         return trie.delete(word.toLowerCase());
     }
 

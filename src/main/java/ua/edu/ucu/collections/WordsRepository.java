@@ -2,7 +2,6 @@ package ua.edu.ucu.collections;
 
 import lombok.Getter;
 
-import java.util.Arrays;
 import java.util.Iterator;
 
 @Getter
@@ -40,7 +39,7 @@ public class WordsRepository implements Iterable<String> {
 
     public String[] getWords() {
         String[] newWords = new String[words.length];
-        System.arraycopy(newWords,0, words, 0, words.length);
+        System.arraycopy(newWords, 0, words, 0, words.length);
         return newWords;
     }
 }
