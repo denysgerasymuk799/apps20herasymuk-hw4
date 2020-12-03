@@ -166,7 +166,7 @@ public class RWayTrie implements Trie {
         WordsRepository wordsList = new WordsRepository(lenQ);
 
         for (int i = 0; i < lenQ; i++) {
-            wordsList.add((String) q.dequeue());
+            wordsList.add((String) q.dequeue(), i);
         }
 
         return wordsList;

@@ -2,20 +2,19 @@ package ua.edu.ucu.collections;
 
 import lombok.Getter;
 
+import java.util.Arrays;
 import java.util.Iterator;
 
 @Getter
 public class WordsRepository implements Iterable<String> {
-    private static int actualSize;
     private final String[] words;
 
     public WordsRepository(int len) {
         words = new String[len];
-        actualSize = 0;
     }
 
-    public void add(String word) {
-        words[actualSize++] = word;
+    public void add(String word, int idx) {
+        words[idx] = word;
     }
 
     @Override
@@ -37,5 +36,11 @@ public class WordsRepository implements Iterable<String> {
                 return null;
             }
         };
+    }
+
+    public String[] getWords() {
+        String[] newWords = new String[words.length];
+        System.arraycopy(newWords,0, words, 0, words.length);
+        return newWords;
     }
 }
