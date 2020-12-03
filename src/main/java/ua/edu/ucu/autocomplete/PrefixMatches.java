@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class PrefixMatches {
 
-    private Trie trie;
+    private final Trie trie;
 
     // TODO: edit code for checking with better constructions
     // TODO: make a copy of trie
@@ -26,19 +26,21 @@ public class PrefixMatches {
         }
 
         String[] words;
-        int wordLen = 0;
+        int wordLen;
         for (String line: strings) {
             words = line.split(" ");
 
             for (String word: words) {
                 wordLen = word.length();
                 if (wordLen > 2) {
-                    trie.add(new Tuple(word, wordLen));
+                    // it was specially designed to add
+                    // elements with toLowerCase
+                    // to make our autocomplete faster
+                    trie.add(new Tuple(word.toLowerCase(), wordLen));
                 }
             }
         }
 
-        // TODO: what to return
         return size();
     }
 
@@ -47,7 +49,7 @@ public class PrefixMatches {
             throw new IllegalArgumentException("Null input for word");
         }
 
-        return trie.contains(word);
+        return trie.contains(word.toLowerCase());
     }
 
     public boolean delete(String word) {
@@ -55,7 +57,11 @@ public class PrefixMatches {
             throw new IllegalArgumentException("Null input for word");
         }
 
-        return trie.delete(word);
+        if (word.equals("")) {
+            return false;
+        }
+
+        return trie.delete(word.toLowerCase());
     }
 
     public Iterable<String> wordsWithPrefix(String pref) {
@@ -79,8 +85,8 @@ public class PrefixMatches {
             throw new IllegalArgumentException("Null input for pref");
         }
 
-        if (k < 0) {
-            throw new IllegalArgumentException("k < 0");
+        if (k <= 0) {
+            throw new IllegalArgumentException("k <= 0");
         }
 
         if (pref.length() < 2) {
@@ -92,7 +98,9 @@ public class PrefixMatches {
             minLenWord = 3;
         }
 
-        Iterable<String> wordsList = trie.wordsWithPrefix(pref);
+        // here you can see how my Iterable object
+        // can work correctly even with other objects
+        Iterable<String> wordsList = trie.wordsWithPrefix(pref.toLowerCase());
         List<String> filteredWords = new LinkedList<>();
         int wordLen;
         for (String word: wordsList) {
